@@ -8,6 +8,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa";
 import Footer from "../components/Footer";
 import Moment from "moment";
+import Loader from "../components/Loader";
 const Blog = () => {
   const { id } = useParams();
 
@@ -121,7 +122,9 @@ const Blog = () => {
       <Footer />
     </div>
   ) : (
-    <div>Loading</div>
+    <div>
+      <Loader />
+    </div>
   );
 };
 
