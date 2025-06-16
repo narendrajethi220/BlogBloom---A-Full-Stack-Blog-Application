@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     // <div className="flex justify-between items-center py-5 mx-8 sm:mx-10 xl:mx-30">
-    <div className="fixed top-0 left-0 w-[90%] bg-white/90 backdrop-blur-sm z-[99] border-b border-gray-200 flex justify-between items-center py-5 mx-8 sm:mx-10 xl:mx-20 ">
+    <div className="fixed top-0 left-0 w-[90%] bg-white/90 backdrop-blur-sm z-[99] border-b border-gray-200 flex justify-between items-center py-3 mx-8 sm:mx-10 xl:mx-15 ">
       <div
         onClick={() => navigate("/")}
         className="flex justify-between items-center cursor-pointer"

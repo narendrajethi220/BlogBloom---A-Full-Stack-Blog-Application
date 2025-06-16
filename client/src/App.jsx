@@ -1,16 +1,28 @@
-import {Routes,Route} from 'react-router-dom';
-import Home from './pages/Home';
-import Blog from './pages/Blog';
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Blog from "./pages/Blog";
+import Layout from "./pages/admin/Layout";
+import Dashboard from "./pages/admin/Dashboard";
+import AddBlog from "./pages/admin/AddBlog";
+import Comments from "./pages/admin/Comments";
+import BlogLists from './pages/admin/BlogLists';
+import Login from "./components/admin/Login";
 
 const App = () => {
   return (
     <div>
-       <Routes>
-          <Route path='/' element={<Home/>} />
-          <Route path="/blog/:id" element={<Blog/>} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/blog/:id" element={<Blog />} />
+        <Route path="/admin" element={true ? <Layout /> : <Login/>}>
+          <Route index element={<Dashboard />} />
+          <Route path="addBlog" element={<AddBlog />} />
+          <Route path="listBlog" element={<BlogLists />} />
+          <Route path="comments" element={<Comments />} />
+        </Route>
       </Routes>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
