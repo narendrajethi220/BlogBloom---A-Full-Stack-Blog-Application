@@ -15,7 +15,7 @@ const Navbar = () => {
         <img
           src={assets.IconBlog}
           alt="Logo"
-          className="w-10 sm:w-12 mr-[-.3rem]"
+          className="w-10 sm:w-12 mr-[-.3rem] hover:scale-110 transition-all "
         />
         <p className="text-zinc-800 text-3xl font-bold">logBloom</p>
       </div>

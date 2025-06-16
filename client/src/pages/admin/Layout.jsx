@@ -13,7 +13,7 @@ const Layout = () => {
         <img
           src={assets.IconBlog}
           alt=""
-          className="w-10 sm:w-12 mr-[-.3rem]"
+          className="w-10 sm:w-12 mr-[-.3rem] cursor-pointer hover:scale-110 transition-all"
           onClick={() => navigate("/")}
         />
         <button
