@@ -1,11 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Backend Codebase for full stack BLOG Application",
+  "description": "Backend Codebase for Full Stack Blog Application",
   "keywords": [
     "NodeJS",
+    "Blog",
     "ExpressJS",
-    "MongoDB"
+    "Database"
   ],
   "homepage": "https://github.com/narendrajethi220/BlogBloom---A-Full-Stack-Blog-Application#readme",
   "bugs": {
