@@ -1,4 +1,4 @@
-import jwt, { decode } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 const auth = (req, res, next) => {

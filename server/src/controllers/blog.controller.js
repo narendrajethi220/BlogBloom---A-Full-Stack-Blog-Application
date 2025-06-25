@@ -135,7 +135,7 @@ export const togglePublish = async (req, res) => {
       message: "Blog Status Updated",
     });
   } catch (err) {
-    res.status(200).json({
+    res.status(500).json({
       success: false,
       message: err.message,
     });
