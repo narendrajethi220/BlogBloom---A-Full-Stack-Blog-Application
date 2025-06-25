@@ -44,12 +44,12 @@ export const addBlog = async (req, res) => {
       image,
       isPublished,
     });
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Blog Added Successfully",
     });
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       status: false,
       message: "Internal Server Error",
     });
@@ -106,7 +106,8 @@ export const deleteBlogById = async (req, res) => {
       });
     }
     await Blog.findByIdAndDelete(blogId);
-    res.status(200).json({
+    await Comment.deleteMany({ blog: blogId });
+    return res.status(200).json({
       success: true,
       message: "Blog Deleted Successfully",
     });

@@ -41,27 +41,3 @@ export const getBlogComments = async (req, res) => {
     });
   }
 };
-
-export const toggleComment = async (req, res) => {
-  try {
-    const { id } = req.body;
-    const comment = await Comment.findById(id);
-    if (!blog) {
-      return res.status(404).json({
-        success: false,
-        message: "No Comment Found",
-      });
-    }
-    comment.isApproved = !comment.isApproved;
-    await comment.save();
-    res.status(201).json({
-      success: true,
-      message: "Comment Status Updated",
-    });
-  } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-};
