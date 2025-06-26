@@ -9,27 +9,58 @@ import { FaLinkedin } from "react-icons/fa";
 import Footer from "../components/Footer";
 import Moment from "moment";
 import Loader from "../components/Loader";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 const Blog = () => {
   const { id } = useParams();
 
+  const { axios } = useAppContext();
+
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
-
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
 
   const fetchBlogData = async () => {
-    const blogData = blogPosts.find((item) => item._id === id);
-
-    setData(blogData);
+    // const blogData = blogPosts.find((item) => item._id === id);
+    try {
+      const { data } = await axios.get(`/api/v1/blog/${id}`);
+      data.success ? setData(data.blog) : toast.error(data.message);
+    } catch (err) {
+      const msg = err.response?.data?.message || "No Blog Found ";
+      toast.error(msg);
+    }
   };
 
   const fetchComments = async () => {
-    setComments(comments_data);
+    try {
+      const { data } = await axios.get(`/api/v1/${id}/comment`);
+      data.success ? setComments(data.comments) : toast.error(data.message);
+    } catch (err) {
+      const msg = err.response?.data?.message || "No Comments Yet ";
+      toast.error(msg);
+    }
   };
 
   const addComment = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/v1/comment", {
+        blogId: id,
+        name,
+        content,
+      });
+      if (data.success) {
+        toast.success(data.message);
+        setName("");
+        setContent("");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || "Unable to add Comment ";
+      toast.error(msg);
+    }
   };
 
   useEffect(() => {

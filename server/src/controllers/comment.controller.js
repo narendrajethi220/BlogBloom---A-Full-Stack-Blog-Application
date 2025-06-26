@@ -19,7 +19,7 @@ export const addComment = async (req, res) => {
 
 export const getBlogComments = async (req, res) => {
   try {
-    const { blogId } = req.body;
+    const { blogId } = req.params;
     const comments = await Comment.find({
       blog: blogId,
       isApproved: true,
@@ -27,7 +27,7 @@ export const getBlogComments = async (req, res) => {
     if (!comments) {
       return res.status(200).json({
         success: true,
-        message: "No Comments Yet",
+        message: "No Comment Yet",
       });
     }
     res.status(200).json({
