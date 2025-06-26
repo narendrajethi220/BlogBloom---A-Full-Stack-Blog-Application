@@ -1,9 +1,9 @@
 import { assets } from "../assets/assets";
 import { FaArrowRightLong } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  const { navigate, token } = useAppContext();
 
   return (
     // <div className="flex justify-between items-center py-5 mx-8 sm:mx-10 xl:mx-30">
@@ -23,7 +23,7 @@ const Navbar = () => {
         onClick={() => navigate("/admin")}
         className="flex justify-between items-center gap-2 rounded-full cursor-pointer bg-primary text-white px-4 py-1 hover:bg-dark transition duration-300 ease-in-out"
       >
-        Login
+        {token ? "Dashboard" : "Login"}
         <FaArrowRightLong />
       </button>
     </div>
