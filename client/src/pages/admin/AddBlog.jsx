@@ -1,10 +1,15 @@
+import { useAppContext } from "../../context/AppContext";
 import { useState, useRef, useEffect } from "react";
 import { IconContext } from "react-icons/lib";
 import { RiFolderUploadFill } from "react-icons/ri";
 import Quill from "quill";
 import { blogCategories } from "../../assets/assets";
+import toast from "react-hot-toast";
 
 const AddBlog = () => {
+  const { axios } = useAppContext();
+  const [isAdding, setIsAdding] = useState(false);
+
   const editorRef = useRef(null);
   const quillRef = useRef(null);
 
@@ -12,12 +17,42 @@ const AddBlog = () => {
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [category, setCategory] = useState("Startup");
-  const [isPublisehd, setIsPublised] = useState(false);
+  const [isPublished, setIsPublished] = useState(false);
 
   const generateContent = async () => {};
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    try {
+      setIsAdding(true);
+      const blog = {
+        title,
+        subTitle,
+        description: quillRef.current.root.innerHTML,
+        category,
+        isPublished,
+      };
+      const formData = new FormData();
+      formData.append("blog", JSON.stringify(blog));
+      formData.append("image", image);
+
+      const { data } = await axios.post("/api/v1/blog", formData);
+      if (data.success) {
+        toast.success(data.message);
+        setImage(false);
+        setTitle("");
+        quillRef.current.root.innerHTML = "";
+        setCategory("Startup");
+        setIsPublished(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || "Unable to Add Blog";
+      toast.error(msg);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   useEffect(() => {
@@ -27,7 +62,10 @@ const AddBlog = () => {
   }, []);
 
   return (
-    <form className="flex-1 bg-blue-50/50 text-gray-600 h-full overflow-scroll">
+    <form
+      onSubmit={onSubmitHandler}
+      className="flex-1 bg-blue-50/50 text-gray-600 h-full overflow-scroll"
+    >
       <div className="bg-white w-full max-w-3xl p-4 md:p-10 sm:m-8 shadow rounded">
         <p className="text-md font-bold">Upload thumbnail</p>
         <label htmlFor="image">
@@ -109,17 +147,18 @@ const AddBlog = () => {
           <p className="font-bold">Publish Now</p>
           <input
             type="checkbox"
-            checked={isPublisehd}
+            checked={isPublished}
             className="scale-125 cursor-pointer"
-            onChange={(e) => setIsPublised(e.target.checked)}
+            onChange={(e) => setIsPublished(e.target.checked)}
           />
         </div>
 
         <button
+          disabled={isAdding}
           type="submit"
           className="mt-8 w-40 h-10 bg-primary text-white rounded cursor-pointer text-sm"
         >
-          Add Blog
+          {isAdding ? "Adding..." : "Add Blog"}
         </button>
       </div>
     </form>

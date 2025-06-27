@@ -1,6 +1,7 @@
 import fs from "fs";
 import Blog from "../models/Blog.js";
 import imagekit from "../config/ImageKit.js";
+import Comment from "../models/Comment.js";
 
 export const addBlog = async (req, res) => {
   try {
@@ -97,7 +98,8 @@ export const getBlogById = async (req, res) => {
 
 export const deleteBlogById = async (req, res) => {
   try {
-    const { blogId } = req.body;
+    const { blogId } = req.params;
+
     const blog = await Blog.findById(blogId);
     if (!blog) {
       return res.status(404).json({
@@ -109,7 +111,8 @@ export const deleteBlogById = async (req, res) => {
     await Comment.deleteMany({ blog: blogId });
     return res.status(200).json({
       success: true,
-      message: "Blog Deleted Successfully",
+      message: `Blog "${blog.title}"Deleted Successfully`,
+      blogId,
     });
   } catch (err) {
     return res.status(500).json({
