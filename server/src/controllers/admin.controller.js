@@ -77,6 +77,7 @@ export const getDashboardData = async (req, res) => {
   try {
     const recentBlogs = await Blog.find({}).sort({ createdAt: -1 }).limit(5);
     const totalBlog = await Blog.countDocuments();
+
     const totalComment = await Comment.countDocuments();
 
     const drafts = await Blog.countDocuments({ isPublished: false });

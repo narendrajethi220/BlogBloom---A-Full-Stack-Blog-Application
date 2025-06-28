@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 
-const BlogTableItem = ({ blog, index, setBlogs }) => {
+const BlogTableItem = ({ blog, fetchBlogs, index, setBlogs }) => {
   const { title, createdAt } = blog;
   const BlogDate = new Date(createdAt);
 
@@ -26,6 +26,23 @@ const BlogTableItem = ({ blog, index, setBlogs }) => {
     }
   };
 
+  const togglePublish = async () => {
+    try {
+      const { data } = await axios.post("/api/v1/blog/toggle-publish", {
+        id: blog._id,
+      });
+      if (data.success) {
+        toast.success(data.message);
+        await fetchBlogs();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || "Error while Publishing Blog";
+      toast.error(msg);
+    }
+  };
+
   return (
     <tr className="border-y border-gray-300">
       <th className="px-2 py-4">{index}</th>
@@ -41,7 +58,10 @@ const BlogTableItem = ({ blog, index, setBlogs }) => {
         </p>
       </td>
       <td className="px-2 py-4 flex text-xs gap-3">
-        <button className="border px-2 py-0.5 mt-1 rounded cursor-pointer">
+        <button
+          onClick={togglePublish}
+          className="border px-2 py-0.5 mt-1 rounded cursor-pointer"
+        >
           {blog.isPublished ? "UnPublish" : "Publish"}
         </button>
         <IconContext.Provider
