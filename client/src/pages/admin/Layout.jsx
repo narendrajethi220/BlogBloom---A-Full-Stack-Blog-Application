@@ -1,5 +1,5 @@
 import { assets } from "../../assets/assets";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/admin/Sidebar";
 import { useAppContext } from "../../context/AppContext";
 
@@ -19,7 +19,7 @@ const Layout = () => {
           src={assets.IconBlog}
           alt=""
           className="w-10 sm:w-12 mr-[-.3rem] cursor-pointer hover:scale-110 transition-all"
-          onClick={() => navigate("/")}
+          onClick={() => (window.location.href = "/")}
         />
         <button
           onClick={logout}

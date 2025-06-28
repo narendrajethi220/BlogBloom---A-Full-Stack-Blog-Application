@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 
-const BlogTableItem = ({ blog, fetchBlogs, index, setBlogs }) => {
+const BlogTableItem = ({ blog, fetchBlogs, index }) => {
   const { title, createdAt } = blog;
   const BlogDate = new Date(createdAt);
 
@@ -16,12 +16,12 @@ const BlogTableItem = ({ blog, fetchBlogs, index, setBlogs }) => {
       const { data } = await axios.delete(`/api/v1/blog/${blog._id}`);
       if (data.success) {
         toast.success(data.message);
-        setBlogs((prev) => prev.filter((b) => b._id !== blog._id));
+        fetchBlogs();
       } else {
         toast.error(data.message);
       }
     } catch (err) {
-      const msg = err.response?.data?.message || "Login failed";
+      const msg = err.response?.data.message || "Unable to Delete Blog";
       toast.error(msg);
     }
   };
