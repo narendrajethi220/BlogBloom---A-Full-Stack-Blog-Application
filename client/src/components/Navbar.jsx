@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     // <div className="flex justify-between items-center py-5 mx-8 sm:mx-10 xl:mx-30">
-    <div className="fixed top-0 left-0 w-[90%] bg-white/90 backdrop-blur-sm z-[99] border-b border-gray-200 flex justify-between items-center py-3 mx-8 sm:mx-10 xl:mx-15 ">
+    <div className="fixed top-0 left-0 w-[100%] bg-white/90 backdrop-blur-sm z-[99] border-b border-gray-200 flex justify-between items-center py-3 px-5 sm:px-10 xl:px-25 ">
       <div
         onClick={() => navigate("/")}
         className="flex justify-between items-center cursor-pointer"
@@ -15,13 +15,13 @@ const Navbar = () => {
         <img
           src={assets.IconBlog}
           alt="Logo"
-          className="w-10 sm:w-12 mr-[-.3rem] hover:scale-110 transition-all "
+          className="w-9 sm:w-12 mr-[-.2rem] hover:scale-110 transition-all "
         />
-        <p className="text-zinc-800 text-3xl font-bold">logBloom</p>
+        <p className="text-zinc-800 font-bold text-2xl sm:text-3xl">logBloom</p>
       </div>
       <button
         onClick={() => navigate("/admin")}
-        className="flex justify-between items-center gap-2 rounded-full cursor-pointer bg-primary text-white px-4 py-1 hover:bg-dark transition duration-300 ease-in-out"
+        className="flex justify-between items-center gap-2 rounded-full cursor-pointer bg-primary text-white px-4 py-1 hover:bg-dark transition duration-300 ease-in-out text-sm sm:text-[1rem]"
       >
         {token ? "Dashboard" : "Login"}
         <FaArrowRightLong />

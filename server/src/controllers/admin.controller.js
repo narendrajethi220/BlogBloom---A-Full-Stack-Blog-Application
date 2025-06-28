@@ -102,15 +102,16 @@ export const getDashboardData = async (req, res) => {
 
 export const deleteCommentById = async (req, res) => {
   try {
-    const { id } = req.body;
-    const comment = await Comment.findById(id);
-    if (comment) {
+    const { commentId } = req.params;
+
+    const comment = await Comment.findById({ _id: commentId });
+    if (!comment) {
       return res.status(404).json({
         success: false,
         message: "No Comment Found",
       });
     }
-    await Comment.findByIdAndDelete(id);
+    await Comment.findByIdAndDelete({ _id: commentId });
     return res.status(200).json({
       success: true,
       message: "Comment deleted Successfully",

@@ -2,9 +2,10 @@ import Comment from "../models/Comment.js";
 
 export const addComment = async (req, res) => {
   try {
-    const { blog, name, content } = req.body;
+    const { blogId, name, content } = req.body;
+    // console.log(req.body);
 
-    await Comment.create({ blog, name, content });
+    await Comment.create({ blog: blogId, name, content });
     return res.status(201).json({
       success: true,
       message: "Comment Added for review",
