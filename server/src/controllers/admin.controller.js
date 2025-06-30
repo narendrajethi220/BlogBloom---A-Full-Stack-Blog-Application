@@ -1,18 +1,16 @@
 import jwt from "jsonwebtoken";
 import Blog from "../models/Blog.js";
 import Comment from "../models/Comment.js";
+import { InternalServerError, UnauthorizedError } from "../utils/app.error.js";
 
-export const adminLogin = async (req, res) => {
+export const adminLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (
       email !== process.env.ADMIN_EMAIL ||
       password !== process.env.ADMIN_PASSWORD
     ) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid Credentials",
-      });
+      throw new UnauthorizedError("Invalid Credentials");
     }
     const token = jwt.sign({ email }, process.env.JWT_SECRET);
     return res.status(200).json({
@@ -20,10 +18,7 @@ export const adminLogin = async (req, res) => {
       token,
     });
   } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: err.message,
-    });
+    return next(err);
   }
 };
 

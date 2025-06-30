@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import connectDB from "./db/index.js";
 import router from "./routes/index.routes.js";
+import { genericErrorHandler } from "./middlewares/error.middleware.js";
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api", router);
+
+app.use(genericErrorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
