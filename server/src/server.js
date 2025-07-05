@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import connectDB from "./db/index.js";
-import router from "./routes/index.routes.js";
 import { genericErrorHandler } from "./middlewares/error.middleware.js";
+import v1Router from "./routes/v1/index.js";
 
 const app = express();
 
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5050;
 app.use(cors());
 app.use(express.json());
 
-app.use("/api", router);
+app.use("/api/v1", v1Router);
 
 app.use(genericErrorHandler);
 

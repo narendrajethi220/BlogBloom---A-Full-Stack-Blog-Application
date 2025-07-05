@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { assets, blogPosts, comments_data } from "../assets/assets";
+import { assets } from "../assets/assets";
 import { FaUser } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -34,7 +34,7 @@ const Blog = () => {
 
   const fetchComments = async () => {
     try {
-      const { data } = await axios.get(`/api/v1/${id}/comment`);
+      const { data } = await axios.get(`/api/v1/comment/${id}`);
       data.success ? setComments(data.comments) : toast.error(data.message);
     } catch (err) {
       const msg = err.response?.data?.message || "No Comments Yet ";

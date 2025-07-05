@@ -25,6 +25,11 @@ const blogSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { timestamps: true }
 );

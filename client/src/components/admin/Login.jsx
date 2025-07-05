@@ -68,7 +68,12 @@ const Login = () => {
                 className="border-b-2 border-gray-300 p-2 outline-none mb-6"
               />
             </div>
-
+            <div>
+              <p>
+                Got something to say? <button>Register Now</button> and start
+                creating.
+              </p>
+            </div>
             <button
               type="submit"
               className="w-full py-3 font-medium bg-primary text-white rounded cursor-pointer hover:bg-primary/90"

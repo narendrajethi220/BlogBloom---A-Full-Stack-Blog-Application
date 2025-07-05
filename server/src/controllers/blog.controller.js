@@ -1,19 +1,18 @@
 import fs from "fs";
-import Blog from "../models/Blog.js";
-import imagekit from "../config/ImageKit.js";
-import Comment from "../models/Comment.js";
-import main from "../config/Gemini.js";
+import Blog from "../models/blog.model.js";
+import imagekit from "../config/imagekit.config.js";
+import Comment from "../models/comment.model.js";
+import main from "../config/gemini.config.js";
 import AppError from "../utils/app.error.js";
 import { InternalServerError, NotFoundError } from "../utils/app.error.js";
 
 export const addBlog = async (req, res) => {
   try {
-    const { title, subTitle, description, category, isPublished } = JSON.parse(
-      req.body.blog
-    );
+    const { userId, title, subTitle, description, category, isPublished } =
+      JSON.parse(req.body.blog);
     const imageFile = req.file;
 
-    if (!title || !description || !category || !imageFile) {
+    if (!userId || !title || !description || !category || !imageFile) {
       return res.status(400).json({
         sucess: false,
         message: "Missing required fields",
@@ -47,6 +46,7 @@ export const addBlog = async (req, res) => {
       category,
       image,
       isPublished,
+      user: userId,
     });
     return res.status(200).json({
       success: true,

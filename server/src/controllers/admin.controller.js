@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import Blog from "../models/Blog.js";
-import Comment from "../models/Comment.js";
+import Blog from "../models/blog.model.js";
+import Comment from "../models/comment.model.js";
 import AppError from "../utils/app.error.js";
 import {
   InternalServerError,

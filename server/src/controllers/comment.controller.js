@@ -1,4 +1,4 @@
-import Comment from "../models/Comment.js";
+import Comment from "../models/comment.model.js";
 import AppError from "../utils/app.error.js";
 import { NotFoundError } from "../utils/app.error.js";
 
