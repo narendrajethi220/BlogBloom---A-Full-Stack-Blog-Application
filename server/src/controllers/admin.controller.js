@@ -1,7 +1,12 @@
 import jwt from "jsonwebtoken";
 import Blog from "../models/Blog.js";
 import Comment from "../models/Comment.js";
-import { InternalServerError, UnauthorizedError } from "../utils/app.error.js";
+import AppError from "../utils/app.error.js";
+import {
+  InternalServerError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../utils/app.error.js";
 
 export const adminLogin = async (req, res, next) => {
   try {
@@ -18,7 +23,10 @@ export const adminLogin = async (req, res, next) => {
       token,
     });
   } catch (err) {
-    return next(err);
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -26,10 +34,7 @@ export const getAllBlogsAdmin = async (req, res) => {
   try {
     const blogs = await Blog.find({}).sort({ createdAt: -1 });
     if (!blogs) {
-      return res.status(200).json({
-        success: true,
-        message: "No Blog Found",
-      });
+      throw new NotFoundError("No Blog Found");
     }
     return res.status(200).json({
       success: true,
@@ -37,10 +42,10 @@ export const getAllBlogsAdmin = async (req, res) => {
       blogs,
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -50,10 +55,7 @@ export const getAllCommentsAdmin = async (req, res) => {
       .populate("blog")
       .sort({ createdAt: -1 });
     if (!comments) {
-      return res.status(200).json({
-        success: true,
-        message: "No Comment Found",
-      });
+      throw new NotFoundError("No Comments Found");
     }
     return res.status(200).json({
       success: true,
@@ -61,10 +63,10 @@ export const getAllCommentsAdmin = async (req, res) => {
       comments,
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -88,10 +90,10 @@ export const getDashboardData = async (req, res) => {
       dashboardData,
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -101,10 +103,7 @@ export const deleteCommentById = async (req, res) => {
 
     const comment = await Comment.findById({ _id: commentId });
     if (!comment) {
-      return res.status(404).json({
-        success: false,
-        message: "No Comment Found",
-      });
+      throw new NotFoundError("No Comments Found");
     }
     await Comment.findByIdAndDelete({ _id: commentId });
     return res.status(200).json({
@@ -112,10 +111,10 @@ export const deleteCommentById = async (req, res) => {
       message: "Comment deleted Successfully",
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -124,10 +123,7 @@ export const approveCommentById = async (req, res) => {
     const { id } = req.body;
     const comment = await Comment.findById(id);
     if (!comment) {
-      return res.status(404).json({
-        success: false,
-        message: "No Comment Found",
-      });
+      throw new NotFoundError("No Comments Found");
     }
     await Comment.findByIdAndUpdate(id, { isApproved: true });
     res.status(201).json({
@@ -135,9 +131,9 @@ export const approveCommentById = async (req, res) => {
       message: "Comment Approved Successfully",
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };

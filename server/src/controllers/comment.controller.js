@@ -1,4 +1,6 @@
 import Comment from "../models/Comment.js";
+import AppError from "../utils/app.error.js";
+import { NotFoundError } from "../utils/app.error.js";
 
 export const addComment = async (req, res) => {
   try {
@@ -11,10 +13,10 @@ export const addComment = async (req, res) => {
       message: "Comment Added for review",
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -26,19 +28,16 @@ export const getBlogComments = async (req, res) => {
       isApproved: true,
     }).sort({ createdAt: -1 });
     if (!comments) {
-      return res.status(200).json({
-        success: true,
-        message: "No Comment Yet",
-      });
+      throw new NotFoundError("No Comment Found");
     }
     res.status(200).json({
       success: true,
       comments,
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };

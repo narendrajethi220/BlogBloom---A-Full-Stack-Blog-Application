@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import "dotenv/config";
 import { dbName } from "../utils/utils.js";
+import { InternalServerError } from "../utils/app.error.js";
 
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI) {
@@ -16,7 +17,7 @@ const connectDB = async () => {
       dbName,
     });
   } catch (err) {
-    console.log("Error while connecting to DB", err.message);
+    throw new InternalServerError(err.message);
   }
 };
 

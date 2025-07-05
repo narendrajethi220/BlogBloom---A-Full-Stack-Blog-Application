@@ -43,7 +43,7 @@ export class NotFoundError extends AppError {
   //Resource not found (e.g., blog, user, comment)
   constructor(message) {
     super(message, 404);
-    this.name - "Not Found Error";
+    this.name = "Not Found Error";
   }
 }
 
@@ -51,7 +51,7 @@ export class ConflictError extends AppError {
   //	Duplicate entry or conflicting resource (e.g., duplicate email)
   constructor(message) {
     super(message, 409);
-    this.name - "Conflict Error";
+    this.name = "Conflict Error";
   }
 }
 

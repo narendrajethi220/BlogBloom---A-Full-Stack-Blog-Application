@@ -3,6 +3,8 @@ import Blog from "../models/Blog.js";
 import imagekit from "../config/ImageKit.js";
 import Comment from "../models/Comment.js";
 import main from "../config/Gemini.js";
+import AppError from "../utils/app.error.js";
+import { InternalServerError, NotFoundError } from "../utils/app.error.js";
 
 export const addBlog = async (req, res) => {
   try {
@@ -51,10 +53,10 @@ export const addBlog = async (req, res) => {
       message: "Blog Added Successfully",
     });
   } catch (err) {
-    return res.status(500).json({
-      status: false,
-      message: "Internal Server Error",
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -67,10 +69,10 @@ export const getAllBlogs = async (req, res) => {
       blogs,
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -79,10 +81,7 @@ export const getBlogById = async (req, res) => {
     const { blogId } = req.params;
     const blog = await Blog.findById(blogId);
     if (!blog) {
-      return res.status(404).json({
-        success: false,
-        message: "No Blog Found",
-      });
+      throw new NotFoundError(`No Blog Found with id: ${blogId}`);
     }
     res.status(200).json({
       success: true,
@@ -90,10 +89,10 @@ export const getBlogById = async (req, res) => {
       blog,
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -103,10 +102,7 @@ export const deleteBlogById = async (req, res) => {
 
     const blog = await Blog.findById(blogId);
     if (!blog) {
-      return res.status(404).json({
-        success: false,
-        message: "No Blog Found",
-      });
+      throw new NotFoundError("No Blog Found");
     }
     await Blog.findByIdAndDelete(blogId);
     await Comment.deleteMany({ blog: blogId });
@@ -116,10 +112,10 @@ export const deleteBlogById = async (req, res) => {
       blogId,
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -127,11 +123,9 @@ export const togglePublish = async (req, res) => {
   try {
     const { id } = req.body;
     const blog = await Blog.findById(id);
+
     if (!blog) {
-      return res.status(404).json({
-        success: false,
-        message: "No Blog Found",
-      });
+      throw new NotFoundError(`No Blog Found with id: ${id}`);
     }
     blog.isPublished = !blog.isPublished;
     await blog.save();
@@ -140,10 +134,10 @@ export const togglePublish = async (req, res) => {
       message: "Blog Status Updated",
     });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
 
@@ -159,9 +153,9 @@ export const generateContent = async (req, res) => {
       content,
     });
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
   }
 };
