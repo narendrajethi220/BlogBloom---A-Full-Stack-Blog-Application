@@ -15,6 +15,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 export const userRegistrationHandler = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    email.toLowerCase();
     const emailExists = await User.findOne({ email: email });
     if (emailExists) {
       throw new ConflictError("User Already Exists");

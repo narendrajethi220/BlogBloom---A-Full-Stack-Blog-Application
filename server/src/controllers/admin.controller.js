@@ -8,16 +8,19 @@ import {
   UnauthorizedError,
 } from "../utils/app.error.js";
 
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "iAmSecretKey";
+
 export const adminLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
     if (
       email !== process.env.ADMIN_EMAIL ||
       password !== process.env.ADMIN_PASSWORD
     ) {
       throw new UnauthorizedError("Invalid Credentials");
     }
-    const token = jwt.sign({ email }, process.env.JWT_SECRET);
+    const token = jwt.sign({ email }, JWT_SECRET_KEY);
     return res.status(200).json({
       success: true,
       token,
@@ -25,7 +28,7 @@ export const adminLogin = async (req, res, next) => {
   } catch (err) {
     if (err instanceof AppError) throw err;
 
-    console.error("🔥 Unexpected Error:", err);
+    console.error("🔥 Unexpected Error:", err.message);
     throw new InternalServerError();
   }
 };
