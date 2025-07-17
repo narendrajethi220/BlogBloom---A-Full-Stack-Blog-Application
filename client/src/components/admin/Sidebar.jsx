@@ -4,6 +4,7 @@ import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { IoIosAddCircle } from "react-icons/io";
 import { FaClipboardList } from "react-icons/fa";
 import { FaComments } from "react-icons/fa";
+import { FaUsersGear } from "react-icons/fa6";
 
 const Sidebar = () => {
   return (
@@ -11,42 +12,72 @@ const Sidebar = () => {
       <NavLink
         end={true}
         to="/admin"
-        className={({ isActive }) => `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${isActive && "bg-primary/10 border-r-4 border-primary"} `}
+        className={({ isActive }) =>
+          `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
+            isActive && "bg-primary/10 border-r-4 border-primary"
+          } `
+        }
       >
         <IconContext.Provider value={{ className: "text-2xl" }}>
-         <TbLayoutDashboardFilled />
+          <TbLayoutDashboardFilled />
         </IconContext.Provider>
         <p className="hidden md:inline-block">Dashboard</p>
       </NavLink>
 
-       <NavLink
+      <NavLink
         to="/admin/addBlog"
-        className={({ isActive }) => `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${isActive && "bg-primary/10 border-r-4 border-primary"} `}
+        className={({ isActive }) =>
+          `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
+            isActive && "bg-primary/10 border-r-4 border-primary"
+          } `
+        }
       >
         <IconContext.Provider value={{ className: "text-2xl" }}>
-         <IoIosAddCircle />
+          <IoIosAddCircle />
         </IconContext.Provider>
         <p className="hidden md:inline-block">Add Blog</p>
       </NavLink>
 
       <NavLink
         to="/admin/listBlog"
-        className={({ isActive }) => `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${isActive && "bg-primary/10 border-r-4 border-primary"} `}
+        className={({ isActive }) =>
+          `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
+            isActive && "bg-primary/10 border-r-4 border-primary"
+          } `
+        }
       >
         <IconContext.Provider value={{ className: "text-2xl" }}>
-        <FaClipboardList />
+          <FaClipboardList />
         </IconContext.Provider>
         <p className="hidden md:inline-block">Blog Lists</p>
       </NavLink>
 
       <NavLink
         to="/admin/comments"
-        className={({ isActive }) => `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${isActive && "bg-primary/10 border-r-4 border-primary"} `}
+        className={({ isActive }) =>
+          `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
+            isActive && "bg-primary/10 border-r-4 border-primary"
+          } `
+        }
       >
         <IconContext.Provider value={{ className: "text-2xl" }}>
-        <FaComments />
+          <FaComments />
         </IconContext.Provider>
         <p className="hidden md:inline-block">Comments</p>
+      </NavLink>
+
+      <NavLink
+        to="/admin/creators"
+        className={({ isActive }) =>
+          `flex items-center gap-3 py-3.5 px-3 md:px-9 md:min-w-64 cursor-pointer ${
+            isActive && "bg-primary/10 border-r-4 border-primary"
+          } `
+        }
+      >
+        <IconContext.Provider value={{ className: "text-2xl" }}>
+          <FaUsersGear />
+        </IconContext.Provider>
+        <p className="hidden md:inline-block">Creators</p>
       </NavLink>
     </div>
   );

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import Blog from "../models/blog.model.js";
 import Comment from "../models/comment.model.js";
+import User from "../models/user.model.js";
 import AppError from "../utils/app.error.js";
 import {
   InternalServerError,
@@ -126,12 +127,58 @@ export const approveCommentById = async (req, res) => {
     const { id } = req.body;
     const comment = await Comment.findById(id);
     if (!comment) {
-      throw new NotFoundError("No Comments Found");
+      throw new NotFoundError(`No Comments Found with id ${id}`);
     }
     await Comment.findByIdAndUpdate(id, { isApproved: true });
     res.status(201).json({
       success: true,
       message: "Comment Approved Successfully",
+    });
+  } catch (err) {
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
+  }
+};
+
+export const getAllCreators = async (req, res) => {
+  try {
+    const users = await User.find({})
+      .select("name email isApproved role _id")
+      .sort({ createdAt: -1 });
+    if (!users) {
+      return res.status(200).json({
+        success: true,
+        message: "No Creator found!",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Users fetched Successfully",
+        users,
+      });
+    }
+  } catch (err) {
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
+  }
+};
+
+export const approveCreatorById = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const user = await User.findById(id);
+    if (!user) {
+      throw new NotFoundError(`No Creator Found with id ${id}`);
+    }
+    await User.findByIdAndUpdate(id, { isApproved: true });
+    res.status(201).json({
+      success: true,
+      message: "Creator Approved ✅",
     });
   } catch (err) {
     if (err instanceof AppError) throw err;

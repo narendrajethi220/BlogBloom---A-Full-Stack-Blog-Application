@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import AppLogo from "../AppLogo";
 
 const Register = () => {
-  const { navigate, axios, setToken } = useAppContext();
+  const { navigate, axios } = useAppContext();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,10 +19,12 @@ const Register = () => {
         password,
       });
       if (data.success) {
-        setToken(data.token);
-        localStorage.setItem("token", data.token);
-        axios.defaults.headers.common["Authorization"] = data.token;
-        toast.success(data.message);
+        toast.success(data.message, {
+          duration: 4000,
+        });
+        setName("");
+        setEmail("");
+        setPassword("");
       } else {
         toast.error(data.message);
       }
@@ -33,7 +36,8 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <AppLogo />
       <div className="w-full max-w-md p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg">
         <div className="flex flex-col items-center justify-center">
           <div className="w-full py-6 text-center">
@@ -83,7 +87,7 @@ const Register = () => {
             </div>
             <div className="mb-[1rem]">
               <p>
-                Alreadt a creator?
+                Already a creator?
                 <button
                   onClick={() => navigate("/admin")}
                   className="text-primary px-2 font-bold cursor-pointer hover:text-lg transition-all ease-in-out"

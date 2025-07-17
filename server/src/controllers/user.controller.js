@@ -31,24 +31,14 @@ export const userRegistrationHandler = async (req, res) => {
       role: "creator",
     });
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-        email: user.email,
-        role: user.role,
-      },
-      JWT_SECRET_KEY,
-      { expiresIn: JWT_EXPIRES_IN }
-    );
-
     const userObj = user.toObject();
     delete userObj.password;
 
     return res.status(201).json({
       success: true,
-      message: "User Created Successfully",
+      message:
+        "Creator profile submitted for review. You will be notified once approved.",
       user: userObj,
-      token,
     });
   } catch (err) {
     if (err instanceof AppError) throw err;

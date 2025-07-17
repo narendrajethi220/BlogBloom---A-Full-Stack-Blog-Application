@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import AppLogo from "../AppLogo";
 
 const Login = () => {
   const { navigate, axios, setToken } = useAppContext();
@@ -29,7 +30,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <AppLogo />
       <div className="w-full max-w-md p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg">
         <div className="flex flex-col items-center justify-center">
           <div className="w-full py-6 text-center">
