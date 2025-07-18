@@ -10,6 +10,8 @@ const CreatorTableItem = ({ creator, fetchCreators }) => {
   const { axios } = useAppContext();
 
   const approveCreator = async () => {
+    const confirm = window.confirm("Are you sure want to approve?");
+    if (!confirm) return;
     try {
       const { data } = await axios.post("/api/v1/admin/approve-creator", {
         id: _id,
@@ -22,6 +24,26 @@ const CreatorTableItem = ({ creator, fetchCreators }) => {
       }
     } catch (err) {
       const msg = err.response?.data.message || "Error while approving Creator";
+      toast.error(msg);
+    }
+  };
+
+  const revokeCreator = async () => {
+    const confirm = window.confirm("Are you sure want to revoke approval ?");
+    if (!confirm) return;
+
+    try {
+      const { data } = await axios.post("/api/v1/admin/revoke-creator", {
+        id: _id,
+      });
+      if (data.success) {
+        toast(data.message);
+        fetchCreators();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      const msg = err.response?.data.message || "Error while revoking approval";
       toast.error(msg);
     }
   };
@@ -53,7 +75,7 @@ const CreatorTableItem = ({ creator, fetchCreators }) => {
                 "text-2xl hover:scale-110 transition-all cursor-pointer text-red-400",
             }}
           >
-            <MdDeleteForever />
+            <MdDeleteForever onClick={revokeCreator} />
           </IconContext.Provider>
         </div>
       </td>

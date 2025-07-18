@@ -187,3 +187,23 @@ export const approveCreatorById = async (req, res) => {
     throw new InternalServerError();
   }
 };
+
+export const revokeCreatorApproval = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const user = await User.findById(id);
+    if (!user) {
+      throw new NotFoundError(`No Creator Found with id ${id}`);
+    }
+    await User.findByIdAndUpdate(id, { isApproved: false });
+    res.status(201).json({
+      success: true,
+      message: "Creator approval revoked.",
+    });
+  } catch (err) {
+    if (err instanceof AppError) throw err;
+
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
+  }
+};

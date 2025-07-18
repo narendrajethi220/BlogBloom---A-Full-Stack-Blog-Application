@@ -8,6 +8,7 @@ import {
   getAllCommentsAdmin,
   getAllCreators,
   getDashboardData,
+  revokeCreatorApproval,
 } from "../../controllers/admin.controller.js";
 import auth from "../../middlewares/auth.middleware.js";
 
@@ -23,5 +24,6 @@ adminRouter.post("/approve-comment", auth, approveCommentById);
 
 adminRouter.get("/creators", auth, getAllCreators);
 adminRouter.post("/approve-creator", auth, approveCreatorById);
+adminRouter.post("/revoke-creator", auth, revokeCreatorApproval);
 
 export default adminRouter;
