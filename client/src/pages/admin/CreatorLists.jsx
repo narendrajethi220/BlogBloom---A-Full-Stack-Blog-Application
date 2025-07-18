@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import CreatorTableItem from "../../components/admin/CreatorTableItem";
 
 const CreatorLists = () => {
-  const [creatorData, setCreatorData] = useState([]);
+  const [creatorsData, setCreatorData] = useState([]);
   const [filter, setFilter] = useState("Not Approved");
 
   const { axios } = useAppContext();
@@ -69,7 +70,21 @@ const CreatorLists = () => {
               </th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {creatorsData
+              .filter((creator) => {
+                if (filter === "Approved") return creator.isApproved === true;
+                else return creator.isApproved === false;
+              })
+              .map((creator, index) => (
+                <CreatorTableItem
+                  key={creator._id}
+                  creator={creator}
+                  index={index + 1}
+                  fetchCreators={fetchCreators}
+                />
+              ))}
+          </tbody>
         </table>
       </div>
     </div>

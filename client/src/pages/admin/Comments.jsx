@@ -82,7 +82,7 @@ const Comments = () => {
                   comment={comment}
                   index={index + 1}
                   fetchComments={fetchComments}
-                  setComments={setComments}
+                  // setComments={setComments}
                 />
               ))}
           </tbody>
