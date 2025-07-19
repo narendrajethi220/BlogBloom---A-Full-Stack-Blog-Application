@@ -6,6 +6,9 @@ import {
 
 const userRouter = express.Router();
 
+userRouter.get("/ping", (req, res) => {
+  res.send("Pong");
+});
 userRouter.post("/register", userRegistrationHandler);
 userRouter.post("/login", userLoginHandler);
 

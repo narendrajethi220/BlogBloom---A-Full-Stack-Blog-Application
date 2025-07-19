@@ -1,36 +1,43 @@
 import { useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
-import AppLogo from "../AppLogo";
+import AppLogo from "../../components/AppLogo";
 
-const Register = () => {
-  const { navigate, axios } = useAppContext();
+const Login = () => {
+  const { navigate, axios, setToken } = useAppContext();
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegistration = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/v1/user/register", {
-        name,
+      const { data } = await axios.post("/api/v1/creator/login", {
         email,
         password,
       });
       if (data.success) {
-        toast.success(data.message, {
-          duration: 4000,
-        });
-        setName("");
-        setEmail("");
-        setPassword("");
+        const { token, user } = data;
+        setToken(token);
+        localStorage.setItem("token", token);
+
+        axios.defaults.headers.common["Authorization"] = token;
+        toast.success("Login successfull!");
+
+        if (user.role === "admin") {
+          navigate("/admin");
+        } else if (user.role === "creator") {
+          navigate("/creator");
+        } else {
+          navigate("/login");
+          setEmail("");
+          setPassword("");
+        }
       } else {
         toast.error(data.message);
       }
     } catch (err) {
-      console.log(err.message);
-      const msg = err.response?.data?.message || "Unable to Register";
+      const msg = err.response?.data?.message || "Login failed";
       toast.error(msg);
     }
   };
@@ -42,27 +49,16 @@ const Register = () => {
         <div className="flex flex-col items-center justify-center">
           <div className="w-full py-6 text-center">
             <h1 className="text-3xl font-bold mb-1">
-              <span className="text-primary">Creator</span> Registration
+              <span className="text-primary">User</span> Login
             </h1>
             <p className="font-light">
-              Enter following details to register as a creator
+              Enter your credentials to access the admin panel
             </p>
           </div>
           <form
-            onSubmit={handleRegistration}
+            onSubmit={handleSubmit}
             className="mt-6 w-full sm:max-w-md text-gray-600"
           >
-            <div className="flex flex-col">
-              <label>Name</label>
-              <input
-                onChange={(e) => setName(e.target.value)}
-                value={name}
-                type="text"
-                required
-                placeholder="Enter your Name"
-                className="border-b-2 border-gray-300 outline-none mb-6"
-              />
-            </div>
             <div className="flex flex-col">
               <label>Email</label>
               <input
@@ -71,9 +67,10 @@ const Register = () => {
                 type="email"
                 required
                 placeholder="Enter your Email"
-                className="border-b-2 border-gray-300 outline-none mb-6"
+                className="border-b-2 border-gray-300 p-2 outline-none mb-6"
               />
             </div>
+
             <div className="flex flex-col">
               <label>Password</label>
               <input
@@ -81,18 +78,18 @@ const Register = () => {
                 value={password}
                 type="password"
                 required
-                placeholder="Enter your Name"
-                className="border-b-2 border-gray-300 outline-none mb-6"
+                placeholder="Enter your Password"
+                className="border-b-2 border-gray-300 p-2 outline-none mb-6"
               />
             </div>
             <div className="mb-[1rem]">
               <p>
-                Already a creator?
+                Got something to say?
                 <button
-                  onClick={() => navigate("/admin")}
+                  onClick={() => navigate("/register")}
                   className="text-primary px-2 font-bold cursor-pointer hover:text-lg transition-all ease-in-out"
                 >
-                  Login
+                  Register Now
                 </button>
                 and start creating.
               </p>
@@ -101,7 +98,7 @@ const Register = () => {
               type="submit"
               className="w-full py-3 font-medium bg-primary text-white rounded cursor-pointer hover:bg-primary/90"
             >
-              Register
+              Login
             </button>
           </form>
         </div>
@@ -110,4 +107,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;

@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import AppError, { InternalServerError } from "../utils/app.error.js";
+import AppError, {
+  InternalServerError,
+  UnauthorizedError,
+} from "../utils/app.error.js";
 
 const auth = (req, res, next) => {
   const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "iAmSecretKey";
@@ -8,10 +11,7 @@ const auth = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: "Unauthorized request - no token provided",
-    });
+    throw new UnauthorizedError("No token Provided");
   }
   try {
     const decoded = jwt.verify(token, JWT_SECRET_KEY);

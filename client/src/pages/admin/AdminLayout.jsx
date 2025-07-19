@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/admin/Sidebar";
 import { useAppContext } from "../../context/AppContext";
 
-const Layout = () => {
+const AdminLayout = () => {
   const { axios, setToken, navigate } = useAppContext();
 
   const logout = () => {
@@ -36,4 +36,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default AdminLayout;

@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import AppError, {
+  BadRequestError,
   ConflictError,
   NotFoundError,
   UnauthorizedError,
@@ -55,6 +56,10 @@ export const userLoginHandler = async (req, res) => {
     if (!user) {
       throw new NotFoundError("User Not Found.");
     }
+    if (!user.isApproved) {
+      throw new BadRequestError("Your creator profile is pending approval.");
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       throw new UnauthorizedError("Invalid Credentials");
@@ -63,6 +68,7 @@ export const userLoginHandler = async (req, res) => {
     const token = jwt.sign(
       {
         id: user._id,
+        name: user.name,
         email: user.email,
         role: user.role,
       },
