@@ -8,11 +8,13 @@ import { InternalServerError, NotFoundError } from "../utils/app.error.js";
 
 export const addBlog = async (req, res) => {
   try {
-    const { userId, title, subTitle, description, category, isPublished } =
-      JSON.parse(req.body.blog);
+    const { title, subTitle, description, category, isPublished } = JSON.parse(
+      req.body.blog
+    );
+    const userId = req.user.id;
     const imageFile = req.file;
 
-    if (!userId || !title || !description || !category || !imageFile) {
+    if (!title || !description || !category || !imageFile) {
       return res.status(400).json({
         sucess: false,
         message: "Missing required fields",
@@ -62,7 +64,10 @@ export const addBlog = async (req, res) => {
 
 export const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find({ isPublished: true });
+    const blogs = await Blog.find({ isPublished: true }).populate(
+      "user",
+      "name email role"
+    );
     res.status(200).json({
       success: true,
       message: "Successfully fetched blogs",
@@ -79,7 +84,10 @@ export const getAllBlogs = async (req, res) => {
 export const getBlogById = async (req, res) => {
   try {
     const { blogId } = req.params;
-    const blog = await Blog.findById(blogId);
+    const blog = await Blog.findById(blogId).populate({
+      path: "user",
+      select: "name",
+    });
     if (!blog) {
       throw new NotFoundError(`No Blog Found with id: ${blogId}`);
     }

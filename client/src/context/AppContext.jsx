@@ -23,6 +23,8 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetchBlogs();
     const token = localStorage.getItem("token");
@@ -30,6 +32,7 @@ export const AppProvider = ({ children }) => {
       setToken(token);
       axios.defaults.headers.common["Authorization"] = `${token}`;
     }
+    setIsLoading(false);
   }, []);
 
   const value = {
@@ -41,6 +44,7 @@ export const AppProvider = ({ children }) => {
     setBlogs,
     input,
     setInput,
+    isLoading,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

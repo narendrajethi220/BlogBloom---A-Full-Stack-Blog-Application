@@ -7,7 +7,7 @@ import { blogCategories } from "../../assets/assets";
 import toast from "react-hot-toast";
 import { parse } from "marked";
 
-const AddBlog = () => {
+const PostBlog = () => {
   const { axios } = useAppContext();
   const [isAdding, setIsAdding] = useState(false);
 
@@ -64,7 +64,6 @@ const AddBlog = () => {
         toast.success(data.message);
         setImage(false);
         setTitle("");
-        setSubTitle("");
         quillRef.current.root.innerHTML = "";
         setCategory("Startup");
         setIsPublished(false);
@@ -194,4 +193,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default PostBlog;

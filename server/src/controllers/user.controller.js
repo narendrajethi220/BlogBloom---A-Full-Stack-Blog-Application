@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import Blog from "../models/blog.model.js";
+import Comment from "../models/comment.model.js";
 import bcrypt from "bcryptjs";
 import AppError, {
   BadRequestError,
@@ -87,6 +89,66 @@ export const userLoginHandler = async (req, res) => {
     });
   } catch (err) {
     if (err instanceof AppError) throw err;
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
+  }
+};
+
+export const fetchUserBlogHandler = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const blogs = await Blog.find({ user: userId });
+    if (!blogs) {
+      return res.status(200).json({
+        success: true,
+        message: "No Blog Founds!",
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        message: "Blogs fetched successfully",
+        blogs,
+      });
+    }
+  } catch (err) {
+    if (err instanceof AppError) throw err;
+    console.error("🔥 Unexpected Error:", err);
+    throw new InternalServerError();
+  }
+};
+
+export const getCreatorDashboardDataHandler = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const recentBlogs = await Blog.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .limit(6);
+    const userBlogIds = await Blog.find({ user: userId }).distinct("_id");
+    const totalBlog = userBlogIds.length;
+
+    const totalComment = await Comment.countDocuments({
+      blog: { $in: userBlogIds },
+    });
+
+    const drafts = await Blog.countDocuments({
+      user: userId,
+      isPublished: false,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Dashboard data fetched",
+      dashboardData: {
+        recentBlogs,
+        totalBlog,
+        totalComment,
+        drafts,
+      },
+    });
+  } catch (err) {
+    if (err instanceof AppError) throw err;
+
     console.error("🔥 Unexpected Error:", err);
     throw new InternalServerError();
   }

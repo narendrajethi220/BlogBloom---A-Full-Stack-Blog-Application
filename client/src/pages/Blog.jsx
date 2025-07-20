@@ -25,6 +25,7 @@ const Blog = () => {
     // const blogData = blogPosts.find((item) => item._id === id);
     try {
       const { data } = await axios.get(`/api/v1/blog/${id}`);
+
       data.success ? setData(data.blog) : toast.error(data.message);
     } catch (err) {
       const msg = err.response?.data?.message || "No Blog Found ";
@@ -35,6 +36,7 @@ const Blog = () => {
   const fetchComments = async () => {
     try {
       const { data } = await axios.get(`/api/v1/comment/${id}`);
+
       data.success ? setComments(data.comments) : toast.error(data.message);
     } catch (err) {
       const msg = err.response?.data?.message || "No Comments Yet ";
@@ -84,11 +86,15 @@ const Blog = () => {
         </h1>
         <h2 className="my-5 max-w-lg truncate mx-auto">{data.subTitle}</h2>
         <p className="inline-block py-1 px-4 rounded-full mb-6 border text-sm border-primary/35 bg-primary/5 font-medium text-primary">
-          Narendra Jethi
+          {data.user.name}
         </p>
       </div>
       <div className="mx-5 max-w-4xl md:mx-auto my-10 mt-6">
-        <img src={data.image} alt="" className="rounded-3xl mb-5" />
+        <img
+          src={data.image}
+          alt="blog"
+          className="w-full rounded-3xl mb-5 object-cover"
+        />
         <div
           className="rich-text max-w-3xl mx-auto"
           dangerouslySetInnerHTML={{ __html: data.description }}

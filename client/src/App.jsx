@@ -14,9 +14,13 @@ import { useAppContext } from "./context/AppContext";
 import CreatorLayout from "./pages/creator/CreatorLayout";
 import AdminLayout from "./pages/admin/AdminLayout";
 import Login from "./pages/auth/Login";
+import Loader from "./components/Loader";
+import PostBlog from "./pages/creator/PostBlog";
+import CreatorBlogLists from "./pages/creator/CreatorBlogLists";
 
 const App = () => {
-  const { token } = useAppContext();
+  const { token, isLoading } = useAppContext();
+  if (isLoading) return <Loader />;
   return (
     <div>
       <Toaster />
@@ -31,7 +35,10 @@ const App = () => {
           element={token ? <CreatorLayout /> : <Navigate to="/login" replace />}
         >
           <Route index element={<CreatorDashboard />} />
+          <Route path="postBlog" element={<PostBlog />} />
+          <Route path="blogs" element={<CreatorBlogLists />} />
         </Route>
+
         <Route
           path="/admin"
           element={token ? <AdminLayout /> : <Navigate to="/login" replace />}

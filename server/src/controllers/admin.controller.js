@@ -9,8 +9,6 @@ import {
   UnauthorizedError,
 } from "../utils/app.error.js";
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "iAmSecretKey";
-
 export const getAllBlogsAdmin = async (req, res) => {
   try {
     const blogs = await Blog.find({}).sort({ createdAt: -1 });

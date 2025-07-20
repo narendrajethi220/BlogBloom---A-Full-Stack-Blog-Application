@@ -13,7 +13,7 @@ const Register = () => {
   const handleRegistration = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/v1/user/register", {
+      const { data } = await axios.post("/api/v1/creator/register", {
         name,
         email,
         password,
@@ -29,7 +29,6 @@ const Register = () => {
         toast.error(data.message);
       }
     } catch (err) {
-      console.log(err.message);
       const msg = err.response?.data?.message || "Unable to Register";
       toast.error(msg);
     }

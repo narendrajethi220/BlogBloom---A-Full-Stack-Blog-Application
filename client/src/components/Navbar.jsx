@@ -25,7 +25,7 @@ const Navbar = () => {
         navigate("/login");
       }
     } catch (err) {
-      toast.error("Session expired. Please login again.");
+      toast.error(err.message);
       navigate("/login");
     }
   };
