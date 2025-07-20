@@ -1,14 +1,49 @@
-![image](https://github.com/user-attachments/assets/eafdd2a6-f946-46f3-ab26-c0ac1753424b)
-![image](https://github.com/user-attachments/assets/7f4f4a60-033f-49ef-9d10-fcfa3ef32167)
-![image](https://github.com/user-attachments/assets/cdd540a2-17cb-4cd3-ba7e-25082fe704b8)
-![image](https://github.com/user-attachments/assets/e1fa1b18-a203-4e48-a315-b25f66a3dd36)
-![image](https://github.com/user-attachments/assets/10114f73-2079-4a19-88a9-4d991b79fd3f)
-![image](https://github.com/user-attachments/assets/654b5f7b-da1a-4738-b70b-dd33137bbaf9)
-![image](https://github.com/user-attachments/assets/495666dd-c4f6-41cd-a55a-ca34422bad67)
-![image](https://github.com/user-attachments/assets/9a9258b3-d7e7-4b2f-a920-189b9d013fe3)
-![image](https://github.com/user-attachments/assets/30491f85-f7de-4659-ac70-281c1421a986)
-![image](https://github.com/user-attachments/assets/b1f4ce0b-c43f-4068-8141-49439fbc2d6a)
-![image](https://github.com/user-attachments/assets/fa55d604-4c66-43ac-aff2-c0c3611fb1ec)
-![image](https://github.com/user-attachments/assets/01242b6c-ff97-46ee-b1d9-abc039fee146)
-![image](https://github.com/user-attachments/assets/140dc042-9bcc-41e7-ae7f-3857c9c02bc1)
-![image](https://github.com/user-attachments/assets/90025155-37e9-4848-a871-467513079723)
+## 📝 BlogBloom — A Full Stack Blog Publishing Platform
+
+**BlogBloom** is a full-stack MERN-based blog publishing platform built for content creators and admins. It supports role-based access, blog creation, comment moderation, and dashboard analytics.
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/25d06c59-4c8f-48e6-b9fa-125be14e0c4d" />
+
+### 🚀 Features
+
+* ✍️ **Role-Based Login System** (Admin / Creator)
+* 📰 **Blog Management**
+
+  * Create, edit, and delete blogs
+  * Save as draft or publish
+* 🔐 **Admin Panel**
+
+  * Approve creators
+  * Moderate blogs and comments
+  * View all platform activity
+* 💬 **Comment System**
+
+  * Leave comments on blogs
+  * Admin/creator can moderate
+* 📊 **Dashboard Overview**
+
+  * Total blogs, drafts, and comment stats per user
+* 🧠 Built using:
+
+  * MongoDB + Mongoose
+  * Express.js + Node.js
+  * React + Tailwind CSS
+  * React Router + Context API
+  * JWT Authentication
+  * React Hot Toast for notifications
+
+### 🧰 Tech Stack
+
+* **Frontend:** React, TailwindCSS, React Router DOM, Axios
+* **Backend:** Node.js, Express.js, Mongoose
+* **Database:** MongoDB
+* **Authentication:** JWT
+* **Notification:** react-hot-toast
+
+### 📦 Setup Instructions
+
+1. Clone the repository
+2. Create `.env` file in both client and server folders
+3. Run `npm install` in both folders
+4. Start the backend and frontend servers
+
+---
