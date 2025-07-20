@@ -21,7 +21,8 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "dependencies": {
     "@google/genai": "^1.7.0",
