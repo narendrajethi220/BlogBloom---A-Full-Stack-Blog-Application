@@ -105,10 +105,10 @@ export const getBlogById = async (req, res) => {
 };
 
 export const deleteBlogById = async (req, res) => {
-  const blogId = req.params;
+  const { blogId } = req.params;
 
   try {
-    const blog = await Blog.findById({ blog: blogId });
+    const blog = await Blog.findById(blogId);
     if (!blog) {
       throw new NotFoundError("No Blog Found");
     }
