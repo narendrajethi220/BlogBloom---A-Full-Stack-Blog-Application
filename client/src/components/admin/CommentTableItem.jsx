@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 const CommentTableItem = ({ comment, fetchComments }) => {
   const { blog, createdAt, _id } = comment;
+  console.log(blog);
   const blogDate = new Date(createdAt);
 
   const { axios } = useAppContext();
