@@ -64,6 +64,7 @@ const PostBlog = () => {
         toast.success(data.message);
         setImage(false);
         setTitle("");
+        setSubTitle("");
         quillRef.current.root.innerHTML = "";
         setCategory("Startup");
         setIsPublished(false);
